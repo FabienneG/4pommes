@@ -217,7 +217,7 @@ body { font-family: 'Comic Sans MS', 'Chalkboard SE', 'Arial Rounded MT Bold', A
 </div>
 
 <script>
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxJ-gz1TKWxW7gZ7vz8wlxXfDD-BOFIWPTwtsoCZvt2VH4qEUL0gpjRWbyYGcmCeQBWRg/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw0GRyBW7le9bhwJtkdjyahRb_RsnWSdZ3XQizD4YYJlJik_0HDYCaPtwTyjxuGqncczA/exec';
 const LEVELS = [{a:4,b:0},{a:3,b:1},{a:2,b:2},{a:1,b:3},{a:0,b:4}];
 const APPLE_COLORS = ['#dd2010','#cc1808','#e03020','#d01808'];
 
@@ -229,25 +229,28 @@ const COULEURS = [
   '#7040c0','#008080','#c03000','#2060a0','#806000'
 ];
 
-// ── Chargement des prénoms ────────────────────────────────────────────────
+// ── Chargement des prénoms via JSONP ─────────────────────────────────────
 function chargerEleves() {
-  fetch(SCRIPT_URL + '?action=getEleves')
-    .then(r => r.json())
-    .then(prenoms => {
-      document.getElementById('loadingMsg').style.display = 'none';
-      const container = document.getElementById('etiquettes');
-      prenoms.forEach((prenom, i) => {
-        const btn = document.createElement('button');
-        btn.className = 'etiquette';
-        btn.textContent = prenom;
-        btn.style.background = COULEURS[i % COULEURS.length];
-        btn.onclick = () => { playerName = prenom; startGame(); };
-        container.appendChild(btn);
-      });
-    })
-    .catch(() => {
-      document.getElementById('loadingMsg').textContent = '⚠️ Impossible de charger les prénoms. Vérifiez la connexion.';
+  window.recevoirEleves = function(prenoms) {
+    document.getElementById('loadingMsg').style.display = 'none';
+    const container = document.getElementById('etiquettes');
+    container.innerHTML = '';
+    prenoms.forEach((prenom, i) => {
+      const btn = document.createElement('button');
+      btn.className = 'etiquette';
+      btn.textContent = prenom;
+      btn.style.background = COULEURS[i % COULEURS.length];
+      btn.onclick = () => { playerName = prenom; startGame(); };
+      container.appendChild(btn);
     });
+  };
+
+  const script = document.createElement('script');
+  script.src = SCRIPT_URL + '?action=getEleves&callback=recevoirEleves';
+  script.onerror = () => {
+    document.getElementById('loadingMsg').textContent = '⚠️ Impossible de charger les prénoms.';
+  };
+  document.body.appendChild(script);
 }
 
 function startGame() {
