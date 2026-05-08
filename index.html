@@ -7,7 +7,14 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: 'Comic Sans MS', 'Chalkboard SE', 'Arial Rounded MT Bold', Arial, Helvetica, sans-serif; background: #fff; min-height: 100vh; }
 
-/* ── ÉTIQUETTES PRÉNOMS ── */
+/* ── ACCUEIL ── */
+#screen-welcome {
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: center; min-height: 100vh; padding: 20px;
+}
+.welcome-title { font-size: 2rem; color: #3a7a10; margin-bottom: 6px; text-align: center; }
+.welcome-sub   { font-size: 1.1rem; color: #7a9a40; margin-bottom: 20px; }
+.loading-msg   { text-align: center; color: #7a9a40; font-size: 1.1rem; margin: 20px 0; }
 .etiquettes {
   display: flex; flex-wrap: wrap; justify-content: center;
   gap: 14px; max-width: 560px; margin: 0 auto 20px;
@@ -20,37 +27,6 @@ body { font-family: 'Comic Sans MS', 'Chalkboard SE', 'Arial Rounded MT Bold', A
   color: #fff; letter-spacing: 2px;
 }
 .etiquette:active { transform: translateY(3px); box-shadow: 0 2px 0 rgba(0,0,0,0.15); }
-.loading-msg { text-align: center; color: #7a9a40; font-size: 1.1rem; margin: 20px 0; }
-#screen-welcome {
-  display: flex; flex-direction: column; align-items: center;
-  justify-content: center; min-height: 100vh; padding: 20px;
-}
-.welcome-title { font-size: 2rem; color: #3a7a10; margin-bottom: 6px; text-align: center; }
-.welcome-sub   { font-size: 1.1rem; color: #7a9a40; margin-bottom: 20px; }
-.name-display {
-  font-size: 2.2rem; font-weight: bold; color: #e05010;
-  background: #fff9e0; border: 3px solid #f5c842;
-  border-radius: 16px; padding: 10px 32px; min-width: 240px;
-  text-align: center; min-height: 60px; margin-bottom: 18px; letter-spacing: 3px;
-  font-family: Arial, Helvetica, sans-serif;
-  text-transform: uppercase;
-}
-.keyboard {
-  display: grid; grid-template-columns: repeat(7, 1fr);
-  gap: 7px; max-width: 500px; width: 100%; margin-bottom: 14px;
-}
-.key {
-  padding: 14px 4px; background: #f0ffe0; border: 3px solid #7dc840;
-  border-radius: 12px; font-size: 1.3rem; font-weight: bold;
-  color: #3a7a10; cursor: pointer; text-align: center;
-  box-shadow: 0 4px 0 #4a9010; transition: transform .1s;
-  font-family: Arial, Helvetica, sans-serif;
-  text-transform: uppercase;
-}
-.key:active { transform: translateY(3px); box-shadow: 0 1px 0 #4a9010; }
-.key-del { background: #ffe0d0; border-color: #e05010; color: #e05010; box-shadow: 0 4px 0 #b03010; }
-.key-go  { grid-column: span 3; background: #5dc030; border-color: #3a8a00; color: #fff; font-size: 1.5rem; box-shadow: 0 4px 0 #2a6a00; }
-.key-go:disabled { background: #ccc; border-color: #aaa; color: #fff; box-shadow: none; cursor: default; }
 
 /* ── JEU ── */
 #screen-game { display: none; padding-bottom: 20px; }
@@ -64,11 +40,6 @@ body { font-family: 'Comic Sans MS', 'Chalkboard SE', 'Arial Rounded MT Bold', A
 .level-dot.done    { background: #f5c000; border-color: #e0a000; }
 .level-dot.current { background: #e05010; border-color: #b03000; }
 
-.consigne-above {
-  display: flex; justify-content: center; align-items: center;
-  width: 200px; min-height: 90px; margin-bottom: 8px;
-}
-.consigne-basket { display: flex; flex-direction: column; align-items: center; gap: 8px; }
 .consigne-chiffre { font-size: 2.8rem; font-weight: bold; line-height: 1; }
 .consigne-chiffre.green { color: #3a8a00; }
 .consigne-chiffre.red   { color: #c03000; }
@@ -76,6 +47,10 @@ body { font-family: 'Comic Sans MS', 'Chalkboard SE', 'Arial Rounded MT Bold', A
 .game-area  { max-width: 680px; margin: 0 auto; padding: 0 10px; }
 .baskets-row{ display: flex; justify-content: center; gap: 20px; margin-bottom: 16px; flex-wrap: wrap; }
 .basket-wrap{ display: flex; flex-direction: column; align-items: center; }
+.consigne-above {
+  display: flex; justify-content: center; align-items: center;
+  width: 200px; min-height: 90px; margin-bottom: 8px;
+}
 .basket {
   width: 200px; min-height: 180px; border: 5px dashed #c87020;
   border-radius: 24px; display: flex; flex-wrap: wrap;
@@ -94,7 +69,6 @@ body { font-family: 'Comic Sans MS', 'Chalkboard SE', 'Arial Rounded MT Bold', A
 }
 .apple-src { width: 72px; height: 72px; cursor: grab; user-select: none; touch-action: none; }
 .apple-src.dragging { opacity: .35; }
-
 .feedback-row {
   display: flex; align-items: center; justify-content: center;
   gap: 24px; margin-bottom: 10px;
@@ -220,14 +194,10 @@ body { font-family: 'Comic Sans MS', 'Chalkboard SE', 'Arial Rounded MT Bold', A
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxaoJqHmCuS5msFPzorVFiFzjx_UMotESii8CuAtjrYq1FlkEsnVMpICj6v3_XNfV2EGg/exec';
 const LEVELS = [{a:4,b:0},{a:3,b:1},{a:2,b:2},{a:1,b:3},{a:0,b:4}];
 const APPLE_COLORS = ['#dd2010','#cc1808','#e03020','#d01808'];
+const COULEURS = ['#e05010','#3a8a00','#3090e0','#c03090','#e0a000','#7040c0','#008080','#c03000','#2060a0','#806000'];
 
 let playerName = '', currentLevel = 0, dragSrcId = null, tries = 0;
 let apples = [], results = [];
-
-const COULEURS = [
-  '#e05010','#3a8a00','#3090e0','#c03090','#e0a000',
-  '#7040c0','#008080','#c03000','#2060a0','#806000'
-];
 
 // ── Chargement des prénoms ────────────────────────────────────────────────
 function chargerEleves() {
@@ -251,6 +221,7 @@ function chargerEleves() {
     });
 }
 
+// ── Démarrage ─────────────────────────────────────────────────────────────
 function startGame() {
   document.getElementById('screen-welcome').style.display = 'none';
   document.getElementById('screen-game').style.display = 'block';
@@ -376,7 +347,7 @@ function checkAnswer(){
     document.getElementById('smiley').textContent='😄';
     results.push({level:currentLevel+1,a:lv.a,b:lv.b,success:true,tries});
     document.getElementById('btnNext').style.display='flex';
-    sendResults(true); // envoi immédiat après chaque niveau réussi
+    sendResults(true);
   } else {
     document.getElementById('smiley').textContent='😞';
   }
@@ -408,27 +379,19 @@ function fmtResult(sorted,lvl){
 }
 
 function sendResults(partial){
-  if(!playerName) return;
-  const now = new Date();
-  const ok  = results.filter(r=>r.success).length;
-  const sorted = [...results].sort((a,b)=>a.level-b.level);
-
-  const params = new URLSearchParams({
-    prenom: playerName,
-    date:   now.toLocaleDateString('fr-FR'),
-    heure:  now.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'}),
-    score:  partial ? `${ok}/${LEVELS.length} (en cours)` : `${ok}/${LEVELS.length}`,
-    niv1:   fmtResult(sorted,1),
-    niv2:   fmtResult(sorted,2),
-    niv3:   fmtResult(sorted,3),
-    niv4:   fmtResult(sorted,4),
-    niv5:   fmtResult(sorted,5)
+  if(!playerName)return;
+  const now=new Date();
+  const ok=results.filter(r=>r.success).length;
+  const sorted=[...results].sort((a,b)=>a.level-b.level);
+  const params=new URLSearchParams({
+    prenom:playerName,
+    date:now.toLocaleDateString('fr-FR'),
+    heure:now.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'}),
+    score:partial?`${ok}/${LEVELS.length} (en cours)`:`${ok}/${LEVELS.length}`,
+    niv1:fmtResult(sorted,1),niv2:fmtResult(sorted,2),niv3:fmtResult(sorted,3),
+    niv4:fmtResult(sorted,4),niv5:fmtResult(sorted,5)
   });
-
-  fetch(SCRIPT_URL + '?' + params.toString(), {
-    method: 'GET',
-    mode: 'no-cors'
-  }).catch(()=>{});
+  fetch(SCRIPT_URL+'?'+params.toString(),{method:'GET',mode:'no-cors'}).catch(()=>{});
 }
 
 // ── Récap ─────────────────────────────────────────────────────────────────
@@ -457,15 +420,7 @@ function restartGame(){
   playerName='';
   document.getElementById('screen-recap').style.display='none';
   document.getElementById('screen-welcome').style.display='flex';
-  updateDisplay();
 }
-
-// Envoi si fermeture de page en cours de jeu
-window.addEventListener('beforeunload',()=>{
-  if(playerName&&document.getElementById('screen-game').style.display!=='none'){
-    sendResults(true);
-  }
-});
 
 // ── Init ──────────────────────────────────────────────────────────────────
 chargerEleves();
